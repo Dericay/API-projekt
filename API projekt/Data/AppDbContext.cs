@@ -57,7 +57,7 @@ namespace API_projekt.Data
             });
             modelBuilder.Entity<Company>().HasData(new Company
             {
-                companyId = 1,
+                companyId = 2,
                 companyName = "Facebook",
                 Adress = "Ängsgatan 4",
                 Phone = "02131249124",
@@ -65,23 +65,43 @@ namespace API_projekt.Data
             });
             modelBuilder.Entity<Appointment>().HasData(new Appointment
             {
-
+                appointmentId = 1,
+                customerId = 1,
+                StartTime = new DateTime(2024, 05, 21, 9, 15, 0),
+                EndTime = new DateTime(2024, 05, 21, 10, 15, 0),
+                companyId = 1,
             });
             modelBuilder.Entity<Appointment>().HasData(new Appointment
             {
-
+                appointmentId = 2,
+                customerId = 2,
+                StartTime = new DateTime(2024, 05, 25, 11, 10, 0),
+                EndTime = new DateTime(2024, 05, 25, 12, 10, 0),
+                companyId = 1,
             });
             modelBuilder.Entity<Appointment>().HasData(new Appointment
             {
-
+                appointmentId = 3,
+                customerId = 3,
+                StartTime = new DateTime(2024, 05, 30, 9, 0, 0),
+                EndTime = new DateTime(2024, 05, 30, 10, 0, 0),
+                companyId = 2,
             });
             modelBuilder.Entity<Appointment>().HasData(new Appointment
             {
-
+                appointmentId = 4,
+                customerId = 2,
+                StartTime = new DateTime(2024, 06, 05, 13, 0, 0),
+                EndTime = new DateTime(2024, 05, 21, 14, 0, 0),
+                companyId = 2,
             });
             modelBuilder.Entity<Appointment>().HasData(new Appointment
             {
-
+                appointmentId = 5,
+                customerId = 1,
+                StartTime = new DateTime(2024, 06, 15, 10, 30, 0),
+                EndTime = new DateTime(2024, 06, 15, 12, 30, 0),
+                companyId = 2,
             });
 
         }
