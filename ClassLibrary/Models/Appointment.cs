@@ -10,9 +10,13 @@ namespace ClassLibrary.Models
     [Serializable]
     public class Appointment
     {
-        public int appoinmentID { get; set; }
-        public int customerID { get; set; }
-        public int companyID { get; set; }
-        public DateTime AppointmentDate { get; set; }
+        public int appoinmentId { get; set; }
+        public int customerId { get; set; }
+        public Customer customer { get; set; }
+        public int companyId { get; set; }
+        public Company company { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Status { get; set; }
     }
 }

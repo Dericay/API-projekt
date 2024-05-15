@@ -10,7 +10,7 @@ namespace ClassLibrary.Models
     public class Customer
     {
         [Key]
-        public int customerID { get; set; }
+        public int customerId { get; set; }
         [Required]
         [StringLength(25)]
         public string FirstName { get; set; }

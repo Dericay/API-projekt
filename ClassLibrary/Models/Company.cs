@@ -10,7 +10,7 @@ namespace ClassLibrary.Models
     public class Company
     {
         [Key]
-        public int companyID { get; set; }
+        public int companyId { get; set; }
         [Required]
         public string companyName { get; set; }
         public string Adress {  get; set; }
