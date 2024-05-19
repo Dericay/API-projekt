@@ -1,4 +1,5 @@
 using API_projekt.Data;
+using API_projekt.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_projekt
@@ -16,6 +17,8 @@ namespace API_projekt
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<IAdmin, AdminRepository>();
+            builder.Services.AddScoped<ICompany, CompanyRepository>();
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));

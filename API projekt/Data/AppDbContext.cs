@@ -14,6 +14,7 @@ namespace API_projekt.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Company>  Companys { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<AppointmentAudit> AppointmentAudits { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

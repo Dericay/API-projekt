@@ -5,8 +5,9 @@ namespace API_projekt.Services
 {
     public interface ICompany
     {
-        Task<IEnumerable<Company>> GetAllCompanys();
-        Task<Company> GetSingelCompany(int Id);
+        Task<Appointment> AddAppointment(Appointment newAppointment);
+        Task<Appointment> UpdateAppointment(Appointment upDate);
+        Task<Appointment> DeleteAppointment(int appointmentId);
         Task<IEnumerable<Company>> Search(string name);
     }
 }

@@ -11,12 +11,12 @@ namespace ClassLibrary.Models
     {
         [Key]
         public int AuditId { get; set; }
-        public int AppointmentId { get; set; }
+        public int appointmentId { get; set; }
         public string Action { get; set; }
         public string OldValue { get; set; }
         public string NewValue { get; set; }
         public DateTime Timestamp { get; set; }
-        public int? CustomerId { get; set; }
-        public int? CompanyId { get; set; }
+        public int? customerId { get; set; }
+        public int? companyId { get; set; }
     }
 }

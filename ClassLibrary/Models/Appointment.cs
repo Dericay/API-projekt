@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary.Models
 {
-    [Serializable]
     public class Appointment
     {
         public int appointmentId { get; set; }
