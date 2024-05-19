@@ -4,8 +4,8 @@ namespace API_projekt.Services
 {
     public interface ICustomer
     {
-        Task<Appointment> AddAppointment(Appointment newAppointment);
-        Task<Appointment> UpdateAppointment(Appointment upDate);
+        Task<Appointment> AddAppointment(int custId, int compId, DateTime StartTime, DateTime EndTime);
+        Task<Appointment> UpdateAppointment(int id, DateTime StartTime, DateTime EndTime);
         Task<Appointment> DeleteAppointment(int appointmentId);
     }
 }

@@ -1,12 +1,15 @@
-﻿using ClassLibrary.Models;
+﻿using ClassLibrary;
+using ClassLibrary.Models;
 
 namespace API_projekt.Services
 {
     public interface IAdmin
     {
         Task<IEnumerable<Customer>> GetAllCustomers();
-        Task<Customer> GetSingelCustomer(int Id);
-        Task<IEnumerable<(string customerName, DateTime appointmentDate)>> BookingsForWeek(int customerId, int weekNumber, int year);
-        Task<IEnumerable<(Customer customer, DateTime appointmentDate)>> AllCustomersCurrentWeek();
+        Task<CustomerDTO> GetSingelCustomer(int Id);
+        Task<IEnumerable<AppointmentDTO>> BookingsForWeek(int customerId, int weekNumber, int year);
+        Task<IEnumerable<AppointmentDTO>> AllCustomersCurrentWeek();
+        Task<IEnumerable<CustomerDTO>> GetFilteredSortedCustomers(string sortBy, bool sortDescending);
+        Task<IEnumerable<AppointmentAuditDTO>> GetAllAppointmentAudits();
     }
 }

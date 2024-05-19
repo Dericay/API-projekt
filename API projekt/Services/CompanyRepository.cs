@@ -12,12 +12,21 @@ namespace API_projekt.Services
         {
             _appDbContext = appDbContext;
         }
-        public async Task<Appointment> AddAppointment(Appointment newAppointment)
+        public async Task<Appointment> AddAppointment(int custId, int compId, DateTime StartTime, DateTime EndTime)
         {
+            var newAppointment = new Appointment
+            {
+                customerId = custId,
+                companyId = compId,
+                StartTime = StartTime,
+                EndTime = EndTime
+            };
+
             var result = await _appDbContext.Appointments.AddAsync(newAppointment);
             await _appDbContext.SaveChangesAsync();
             return result.Entity;
         }
+
 
         public async Task<Appointment> DeleteAppointment(int appointmentId)
         {
@@ -31,9 +40,20 @@ namespace API_projekt.Services
             return null;
         }
 
-        public Task<IEnumerable<Company>> Search(string name)
+        public async Task<IEnumerable<CompanyAppointmentDTO>> Search(int id, DateTime StartTime, DateTime EndTime)
         {
-            throw new NotImplementedException();
+            var appointments = await _appDbContext.Appointments
+                .Include(x => x.customer)
+                .Where(x => x.companyId == id && x.StartTime >= StartTime && x.EndTime <= EndTime)
+                .Select(x => new CompanyAppointmentDTO
+                {
+                    CustomerName = $"{x.customer.FirstName} {x.customer.LastName}",
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime,
+
+                }).ToListAsync();
+
+            return appointments;
         }
 
         public async Task<Appointment> UpdateAppointment(Appointment upDate)
@@ -65,5 +85,44 @@ namespace API_projekt.Services
             }
             return null;
         }
+        public async Task<IEnumerable<CompanyAppointmentDTO>> GetFilteredSortedAppointments(int companyId, DateTime? startTime, DateTime? endTime, string sortBy, bool sortDescending)
+        {
+            var query = _appDbContext.Appointments
+                .Include(x => x.customer)
+                .Where(x => x.companyId == companyId)
+                .AsQueryable();
+
+            
+            if (startTime.HasValue)
+            {
+                query = query.Where(x => x.StartTime >= startTime.Value);
+            }
+            if (endTime.HasValue)
+            {
+                query = query.Where(x => x.EndTime <= endTime.Value);
+            }
+
+            query = sortBy switch
+            {
+                "CustomerName" => sortDescending ? query.OrderByDescending(x => x.customer.FirstName).ThenByDescending(x => x.customer.LastName)
+                : query.OrderBy(x => x.customer.FirstName).ThenBy(x => x.customer.LastName),
+                "StartTime" => sortDescending ? query.OrderByDescending(x => x.StartTime)
+                : query.OrderBy(x => x.StartTime),
+                "EndTime" => sortDescending ? query.OrderByDescending(x => x.EndTime)
+                : query.OrderBy(x => x.EndTime),
+                _ => query
+            };
+
+            var appointments = await query
+                .Select(x => new CompanyAppointmentDTO
+                {
+                    CustomerName = $"{x.customer.FirstName} {x.customer.LastName}",
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime,
+                }).ToListAsync();
+
+            return appointments;
+        }
+
     }
 }

@@ -19,6 +19,7 @@ namespace API_projekt
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IAdmin, AdminRepository>();
             builder.Services.AddScoped<ICompany, CompanyRepository>();
+            builder.Services.AddScoped<ICustomer, CustomerRepository>();
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));

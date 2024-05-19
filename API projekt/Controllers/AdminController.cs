@@ -72,12 +72,6 @@ namespace API_projekt.Controllers
                 var bookings = await _admin.BookingsForWeek(customerId, weekNumber, year);
                 var appointmentsList = bookings.ToList();
 
-                Console.WriteLine($"Appointments to return: {appointmentsList.Count}");
-                foreach (var appointment in appointmentsList)
-                {
-                    Console.WriteLine($"Customer: {appointment.customerName}, Date: {appointment.appointmentDate}");
-                }
-
                 return Ok(appointmentsList);
             }
             catch (Exception ex)
@@ -86,5 +80,20 @@ namespace API_projekt.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error getting data from database...");
             }
         }
-    }   
+
+        [HttpGet("filtered-sorted-customers")]
+        public async Task<IActionResult> GetFilteredSortedCustomers(string sortBy, bool sortDescending)
+        {
+            var result = await _admin.GetFilteredSortedCustomers(sortBy, sortDescending);
+            return Ok(result);
+        }
+
+        [HttpGet("HistoryRecord")]
+        public async Task<IActionResult> GetAllAppointmentAudits()
+        {
+            var audits = await _admin.GetAllAppointmentAudits();
+            return Ok(audits);
+        }
+    }
 }
+

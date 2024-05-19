@@ -37,7 +37,7 @@ namespace API_projekt.Controllers
             }
         }
 
-        [HttpDelete("{DeleteAppointment}")]
+        [HttpDelete("DeleteAppointment")]
         public async Task<IActionResult> DeleteAppointment(int appointmentId)
         {
             try
@@ -59,11 +59,11 @@ namespace API_projekt.Controllers
         }
 
         [HttpPost("AddAppointment")]
-        public async Task<IActionResult> AddAppointment(Appointment newAppointment)
+        public async Task<IActionResult> AddAppointment(int custId, int compId, DateTime StartTime, DateTime EndTime)
         {
             try
             {
-                var addedAppointment = await _company.AddAppointment(newAppointment);
+                var addedAppointment = await _company.AddAppointment(custId, compId, StartTime, EndTime);
                 return Ok(addedAppointment);
             }
             catch (Exception ex)
@@ -71,5 +71,36 @@ namespace API_projekt.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+
+        [HttpGet("GetAppointments")]
+        public async Task<IActionResult> GetAppointment(int id, DateTime StartTime, DateTime EndTime)
+        {
+            try
+            {
+                var appointments = await _company.Search(id, StartTime, EndTime);
+                return Ok(appointments);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+        [HttpGet("filtered-sorted-appointments")]
+        public async Task<IActionResult> GetFilteredSortedAppointments(int companyId, DateTime? startTime, DateTime? endTime, string sortBy, bool sortDescending)
+        {
+            try
+            {
+                var result = await _company.GetFilteredSortedAppointments(companyId, startTime, endTime, sortBy, sortDescending);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+            
+        }
+
     }
 }

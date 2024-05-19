@@ -11,8 +11,16 @@ namespace API_projekt.Services
         {
             _appDbContext = appDbContext;
         }
-        public async Task<Appointment> AddAppointment(Appointment newAppointment)
+        public async Task<Appointment> AddAppointment(int custId, int compId, DateTime StartTime, DateTime EndTime)
         {
+            var newAppointment = new Appointment
+            {
+                customerId = custId,
+                companyId = compId,
+                StartTime = StartTime,
+                EndTime = EndTime
+            };
+
             var result = await _appDbContext.Appointments.AddAsync(newAppointment);
             await _appDbContext.SaveChangesAsync();
             return result.Entity;
@@ -45,23 +53,23 @@ namespace API_projekt.Services
             return null;
         }
 
-        public async Task<Appointment> UpdateAppointment(Appointment upDate)
+        public async Task<Appointment> UpdateAppointment(int id, DateTime StartTime, DateTime EndTime)
         {
-            var result = await _appDbContext.Appointments.FirstOrDefaultAsync(a => a.appointmentId == upDate.appointmentId);
+            var result = await _appDbContext.Appointments.FirstOrDefaultAsync(a => a.appointmentId == id);
             if (result != null)
             {
                 var oldStartTime = result.StartTime;
                 var oldEndTime = result.EndTime;
 
-                result.StartTime = upDate.StartTime;
-                result.EndTime = upDate.EndTime;
+                result.StartTime = StartTime;
+                result.EndTime = EndTime;
 
                 var auditRecord = new AppointmentAudit
                 {
                     appointmentId = result.appointmentId,
                     Action = "Update",
                     OldValue = $"StartTime: {oldStartTime}, EndTime: {oldEndTime}",
-                    NewValue = $"StartTime: {upDate.StartTime}, EndTime: {upDate.StartTime}",
+                    NewValue = $"StartTime: {StartTime}, EndTime: {StartTime}",
                     Timestamp = DateTime.UtcNow,
                     customerId = result.customerId,
                     companyId = result.companyId,
